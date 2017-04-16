@@ -11,6 +11,10 @@
 (define (far->cel f)
   (* 5/9 (- f 32)))
 
+(check-expect (far->cel -40) -40)
+(check-expect (far->cel 32) 0)
+(check-expect (far->cel 212) 100)
+
 ;EJERCICIO 1
 ; Calcula la distancia de un punto a la origen
 ; dist-origen : Number Number -> Number
@@ -21,9 +25,9 @@
 (define (dist-origen x y)
   (sqrt(+ (* x x) (* y y))))
 
-(dist-origen 4 5)
-(dist-origen 6 1)
-(dist-origen -5 -9)
+;(check-expect (dist-origen 4 5) #i6.4031242374328485)
+;(check-expect (dist-origen 6 1) 6.08)
+;(check-expect (dist-origen -5 -9) 10.29)
 
 ;EJERCICIO 2
 ; Calcula la distancia entre dos puntos
@@ -35,9 +39,9 @@
 (define (dist-puntos x1 y1 x2 y2) 
         (sqrt (+ (* (- x1 x2) (- x1 x2)) (* (- y1 y2) (- y1 y2)))))
 
-(dist-puntos 1 2 3 4)
-(dist-puntos 4 8 3 1)
-(dist-puntos 7 3 4 2)
+;(check-expect (dist-puntos 1 2 3 4) 2.82)
+;(check-expect (dist-puntos 4 8 3 1) 7.07)
+;(check-expect (dist-puntos 7 3 4 2) 3.16)
 
 ;EJERCICIO 3
 ; Calcula el volumen de un cubo
@@ -49,9 +53,9 @@
 (define (volume-cubo x)
   (* x (* x x)))
 
-(volume-cubo 5)
-(volume-cubo 2)
-(volume-cubo 8)
+(check-expect (volume-cubo 5) 125)
+(check-expect (volume-cubo 2) 8)
+(check-expect (volume-cubo 8) 512)
 
 ;EJERCICIO 4
 ; Calcula la area de un cubo
@@ -63,9 +67,9 @@
 (define (area-cubo x)
   (* 6 x x))
 
-(area-cubo 2)
-(area-cubo 6)
-(area-cubo 8)
+(check-expect (area-cubo 2) 24)
+(check-expect (area-cubo 6) 216)
+(check-expect (area-cubo 8) 384)
 
 ;EJERCICIO 5
 ; Calcula la area de una imagen
@@ -77,9 +81,9 @@
 (define (area-imagen x)
   (* (image-width x) (image-height x)))
 
-(area-imagen (square 20 "solid" "red"))
-(area-imagen (rectangle 30 15 "solid" "green"))
-(area-imagen (rectangle 20 40 "solid" "blue"))
+(check-expect (area-imagen (square 20 "solid" "red")) 400)
+(check-expect (area-imagen (rectangle 30 15 "solid" "green")) 450)
+(check-expect (area-imagen (rectangle 20 40 "solid" "blue")) 800)
 
 ;EJERCICIO 6
 ; Inserta "-" en la i-ésima posición del string
@@ -91,6 +95,38 @@
 (define (string-insert str x)
   (string-append (substring str 0 x) "-" (substring str x)))
 
-(string-insert "HelloWorld" 5)
-(string-insert "DrRacket" 2)
-(string-insert "Práctica2" 8)
+(check-expect (string-insert "HelloWorld" 5) "Hello-World")
+(check-expect (string-insert "DrRacket" 2) "Dr-Racket")
+(check-expect (string-insert "Práctica2" 8) "Práctica-2")
+
+;EJERCICIO 7
+; Extrae el último caracter de una cadena no vacía
+; string-last : String -> String
+; Recibe una String, devuelve el último caracter de una cadena no vacía
+; entrada: "HelloWorld", salida: d
+; entrada: "DrRacket", salida: t
+; entrada: "Práctica2", salida: 2
+(define (string-last str)
+  (if (string? str)
+      (substring str (- (string-length str) 1))
+      "No es una String"))
+
+(check-expect (string-last "HelloWorld") "d")
+(check-expect (string-last "DrRacket") "t")
+(check-expect (string-last "Práctica2") "2")
+
+;EJERCICIO 8
+; Devulve la misma cadena sin el último caracter
+; string-remove-last : String -> String
+; Recibe una String, devulve la misma cadena sin el último caracter
+; entrada: "HelloWorld", salida: HelloWorl
+; entrada: "DrRacket", salida: DrRacke
+; entrada: "Práctica2", salida: Práctica
+(define (string-remove-last str)
+    (if (string? str)
+      (substring str 0 (- (string-length str) 1))
+      "No es una String"))
+
+(check-expect (string-remove-last "HelloWorld") "HelloWorl")
+(check-expect (string-remove-last "DrRacket") "DrRacke")
+(check-expect (string-remove-last "Práctica2") "Práctica")
