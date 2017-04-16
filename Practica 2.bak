@@ -1,6 +1,6 @@
 ;; The first three lines of this file were inserted by DrRacket. They record metadata
 ;; about the language level of this file in a form that our tools can easily process.
-#reader(lib "htdp-beginner-reader.ss" "lang")((modname |Practica 2|) (read-case-sensitive #t) (teachpacks ((lib "image.rkt" "teachpack" "2htdp"))) (htdp-settings #(#t constructor repeating-decimal #f #t none #f ((lib "image.rkt" "teachpack" "2htdp")) #f)))
+#reader(lib "htdp-beginner-reader.ss" "lang")((modname |Practica 2|) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #f)))
 ;EJEMPLO
 ; Representamos temperaturas mediante números
 ; far->cel : Number -> Number
@@ -67,30 +67,4 @@
 (area-cubo 6)
 (area-cubo 8)
 
-;EJERCICIO 5
-; Calcula la area de una imagen
-; area-imagen : Imagen -> Number
-; Recibe una imagen, devuelve su area
-; entrada:(square 20 "solid" "red"), salida: 400
-; entrada: (rectangle 30 15 "solid" "green"), salida: 450
-; entrada: (area-imagen (rectangle 20 40 "solid" "blue")), salida: 800
-(define (area-imagen x)
-  (* (image-width x) (image-height x)))
 
-(area-imagen (square 20 "solid" "red"))
-(area-imagen (rectangle 30 15 "solid" "green"))
-(area-imagen (rectangle 20 40 "solid" "blue"))
-
-;EJERCICIO 6
-; Inserta "-" en la i-ésima posición del string
-; area-imagen : String Number -> String
-; Recibe una String y un número, devuelve una String con "-" en la i-ésima posición del string
-; entrada: "HelloWorld" 5, salida: Hello-World
-; entrada: "DrRacket" 2, salida: Dr-Racket
-; entrada: "Práctica2" 8, salida: Práctica-2
-(define (string-insert str x)
-  (string-append (substring str 0 x) "-" (substring str x)))
-
-(string-insert "HelloWorld" 5)
-(string-insert "DrRacket" 2)
-(string-insert "Práctica2" 8)
