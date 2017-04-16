@@ -87,7 +87,7 @@
 
 ;EJERCICIO 6
 ; Inserta "-" en la i-ésima posición del string
-; area-imagen : String Number -> String
+; string-insert : String Number -> String
 ; Recibe una String y un número, devuelve una String con "-" en la i-ésima posición del string
 ; entrada: "HelloWorld" 5, salida: Hello-World
 ; entrada: "DrRacket" 2, salida: Dr-Racket
