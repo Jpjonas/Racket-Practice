@@ -21,11 +21,16 @@
 (define (disenaCielo t) t)
 
 (define (disenaEstrellas p x y e)
-  (cond [] 
+  (cond [(> x (- ANCHO TAMESTR)) p] 
         [(mouse=? e "button-down") (place-image STAR x y p)]
+        [else p]))
+
+(define (eventosTeclado p k)
+  (cond [(key=? k " ") CIELOVACIO]
         [else p]))
 
 (big-bang CIELOVACIO                     ;Estado inicial del sistema
           [to-draw disenaCielo]          ;Diseño de la pantalla
           [on-mouse disenaEstrellas]     ;Diseña las estrellas
+          [on-key eventosTeclado]
 )
