@@ -14,10 +14,15 @@
   (place-image/align (text cadena 20 "indigo")
                      0 0 "left" "top" (empty-scene ANCHOPANTALLA ALTOPANTALLA)))
 
-(define (agregarCaracter n t))
+;agregarCaracter : estado string -> estado
+;Agrega los caracteres digitados a la cadena y imprimi en pantalla
+;Borra caracteres con la tecla backspace
+(define (agregarCaracter n k)
+  (cond [(key=? k "\b") (substring n 0 (- (string-length n) 1))]
+        [else (string-append n k)]))
 
-(big-bang ""               ; estado inicial del sistema
-          [to-draw pantalla]
-          [on-key])
+(big-bang ""                          ;Estado inicial del sistema
+          [to-draw pantalla]          ;Diseño de la pantalla
+          [on-key agregarCaracter])   ;Agregar caracter a la cadena
 
 
