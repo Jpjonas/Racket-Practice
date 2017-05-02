@@ -9,12 +9,13 @@
 ; entrada: "DrRacket" 2, salida: Dr-Racket
 ; entrada: "Práctica2" 8, salida: Práctica-2
 (define (string-insert str x)
-  (string-append (substring str 0 x) "-" (substring str x)))
-
+  (cond [(> x (string-length str)) "Posición Inválida"]
+        [else (string-append (substring str 0 x) "-" (substring str x))]))
+  
+(string-insert "HelloWorld" 11)
 (check-expect (string-insert "HelloWorld" 5) "Hello-World")
 (check-expect (string-insert "DrRacket" 2) "Dr-Racket")
-(check-expect (string-insert "Práctica2" 8) "Práctica-2")
-
+(check-expect (string-insert "Práctica72" 8) "Práctica-2")
 
 ;EJERCICIO 8
 ; Devulve la misma cadena sin el último caracter
@@ -24,10 +25,12 @@
 ; entrada: "DrRacket", salida: DrRacke
 ; entrada: "Práctica2", salida: Práctica
 (define (string-remove-last str)
-    (if (string? str)
-      (substring str 0 (- (string-length str) 1))
-      "No es una String"))
+  (cond [(not (string? str)) "No es una String"]
+        [(= (string-length str) 0) "String vacia"] 
+        [else (substring str 0 (- (string-length str) 1))]))
 
+(string-remove-last 7)
+(string-remove-last "")
 (check-expect (string-remove-last "HelloWorld") "HelloWorl")
 (check-expect (string-remove-last "DrRacket") "DrRacke")
 (check-expect (string-remove-last "Práctica2") "Práctica")
