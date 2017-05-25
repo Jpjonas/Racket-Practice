@@ -7,6 +7,8 @@
 (define ALTO 60)
 ;Definición del ancho de la pantalla
 (define ANCHO 800)
+;Definición del fondo de la pantalla
+(define FONDO (empty-scene ANCHO ALTO))
 
 ;Un texto es: (make-texto String Color Number)
 ;El primer elemento es la cadena a mostrarse
@@ -14,30 +16,46 @@
 ;El tercero determinan el tamaño de fuente en píxeles
 (define-struct texto [cadena color tam])
 
+;Definición del estado inicial del programa
+(define INICIAL (make-texto "" "indigo" 20))
+
+;Borra la ultima letra de la cadena
+;string-remove-last: String -> String
+;Recibe una String, devuelve la misma String sin la ultima letra
+(define (string-remove-last s)
+  (if (not(string=? "" s))
+      (substring s 0 (- (string-length s) 1))
+      s))
+
 ;Maneja los colores de la cadena
 ;cambiaColor: texto String -> texto
 ;Cambia el color de la cadena con las teclas f1, f2, f3, f4, f5 y f6
 (define (cambiaColor n k)
-  (cond [(key=? k "f1") (make-texto (texto-cadena n) "black" (texto-tam n))]
-        [(key=? k "f2") (make-texto (texto-cadena n) "red" (texto-tam n))]
-        [(key=? k "f3") (make-texto (texto-cadena n) "green" (texto-tam n))]
-        [(key=? k "f4") (make-texto (texto-cadena n) "yellow" (texto-tam n))]
-        [(key=? k "f5") (make-texto (texto-cadena n) "indigo" (texto-tam n))]
-        [(key=? k "f6") (make-texto (texto-cadena n) "grey" (texto-tam n))]))
+  (cond [(key=? k "f1") (make-texto (texto-cadena n) "indigo" (texto-tam n))]
+        [(key=? k "f2") (make-texto (texto-cadena n) "black" (texto-tam n))]
+        [(key=? k "f3") (make-texto (texto-cadena n) "blue" (texto-tam n))]
+        [(key=? k "f4") (make-texto (texto-cadena n) "green" (texto-tam n))]
+        [(key=? k "f5") (make-texto (texto-cadena n) "red" (texto-tam n))]
+        [(key=? k "f6") (make-texto (texto-cadena n) "yellow" (texto-tam n))]))
 
 ;Maneja el tamaño de la fuente de la cadena
 ;cambiaTamanoFuente: texto String -> texto
 ;Cambia el tamaño de la fuente con las teclas "up" y "down"
 (define (cambiaTamanoFuente n k)
   (cond[(key=? k "up") (make-texto (texto-cadena n) (texto-color n) (+ (texto-tam n) 1))]
-       [(key=? k "down") (make-texto (texto-cadena n) (texto-color n) (- (texto-tam n) 1))]))
+       [(key=? k "down") (make-texto (texto-cadena n)
+                                     (texto-color n)
+                                     (if (< 1 (- (texto-tam n) 1)) ;Verifica si el tamaño de la fuente es menor que 1
+                                         (- (texto-tam n) 1)
+                                         (texto-tam n)))]
+       [else n]))
 
 ;Imprime el estado del programa en la pantalla
 ;pantalla : texto -> Image
 ;Transforma el estado del sistema en una imagen a mostrar a través de la cláusula to-draw
 (define (pantalla n)
   (place-image/align (text (texto-cadena n) (texto-tam n) (texto-color n))
-                     0 0 "left" "top" (empty-scene ANCHO ALTO)))
+                     0 0 "left" "top" FONDO))
 
 ;Maneja las entradas del teclado
 ;agregarCaracter : estado string -> estado
@@ -52,12 +70,10 @@
     ;Determina el color de la fuente
     [(or (key=? k "f1") (key=? k "f2") (key=? k "f3") (key=? k "f4") (key=? k "f5") (key=? k "f6")) (cambiaColor n k)]
     ;Borra las letras con la tecla "backspace"
-    [(and (key=? k "\b") (> (string-length (texto-cadena n)) 0))
-     (make-texto (substring (texto-cadena n) 0 (- (string-length (texto-cadena n)) 1)) (texto-color n) (texto-tam n))]
+    [(key=? k "\b") (make-texto (string-remove-last (texto-cadena n)) (texto-color n) (texto-tam n))]
     ;Adiciona las letras precionadas a la cadena del estado
-    [(not (key=? k "\b")) (make-texto (string-append (texto-cadena n) k) (texto-color n) (texto-tam n))]
-    [else n]))
+    [else (make-texto (string-append (texto-cadena n) k) (texto-color n) (texto-tam n))]))
 
-(big-bang (make-texto "" "indigo" 20) ;Estado inicial del sistema
+(big-bang INICIAL                     ;Estado inicial del sistema
           [to-draw pantalla]          ;Diseño de la pantalla
           [on-key agregarCaracter])   ;Agregar caracter a la cadena
