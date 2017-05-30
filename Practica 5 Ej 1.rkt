@@ -9,5 +9,19 @@
 (cons "Jorge"
       (cons "Mateus"
             (cons "Jonas"
-                  (cons "Nicolás"
+                  (cons "Marcos"
                         (cons "Ana" '())))))
+                        
+; contiene-Marcos? : Contactos -> Booleano
+; dada una lista de Contactos, determina si "Marcos" es un elemento de la misma
+ 
+(check-expect (contiene-Marcos? '()) #false)
+(check-expect (contiene-Marcos? (cons "Sara" (cons "Pedro"  (cons "Esteban" '())))) #false)
+(check-expect (contiene-Marcos? (cons "A" (cons "Marcos" (cons "C" '())))) #true)
+(check-expect (contiene-Marcos? (cons "Juan" '())) #false)
+(check-expect (contiene-Marcos? (cons "Marcos" '())) #true)
+ 
+(define (contiene-Marcos? l) (cond [(empty? l) #false]
+                                   [(cons? l) (if (string=? (first l) "Marcos")
+                                                  #true
+                                                  (contiene-Marcos? (rest l)))]))
