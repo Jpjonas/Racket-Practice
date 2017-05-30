@@ -34,15 +34,14 @@
         [(string=? (casa-zona c) "D") (calcula-precio c 5000)]
         [else "No se puede calcular el precio de venta por no disponer de los valores del metro cuadrado para la zona solicitada"]))
 
-;Calculña el precio de la casa
+;Calcula el precio de la casa
 ;calcula-precio: casa Number -> String
 ;Recibe un valor del tipo casa y el precio por el metro cuadrado
 ;Envia el precio de la casa para la función mensaje
 (define (calcula-precio c valorm)
-  (cond [(> (* valorm (casa-superficie c)) 1000000) (* valorm (casa-superficie c) 1.05)]
-        [else (* valorm (casa-superficie c) 0.97)]))
-
-
-
-
-
+  (cond [(> (* valorm (casa-superficie c)) 1000000) 
+         (string-append "El señor " (casa-propietario c) " recibirá " (number->string (* valorm (casa-superficie c) 1.05)) 
+                        " pesos por la venta de su propiedad ubicada en la calle" (casa-direccion c))]
+        [else 
+         (string-append "El señor " (casa-propietario c) " recibirá " (number->string (* valorm (casa-superficie c) 0.97))
+                        " pesos por la venta de su propiedad ubicada en la calle" (casa-direccion c))]))
